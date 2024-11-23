@@ -8,8 +8,9 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject IAccountService AccountService
-@inject SignInManager<User> SignInManager
 @inject NavigationManager Nav
+
+@rendermode InteractiveServer
 
 <section class="vh-100">
     <div class="container-fluid h-custom">
@@ -23,7 +24,7 @@
                         Sign in with Email
                     </p>
                 </div>
-                <MudAlert Severity="Severity.Success" Variant="Variant.Filled">The reactor is running at optimum temperature</MudAlert>
+                <Alert @ref="alert" />
                 <EditForm Model="Input" method="post" OnValidSubmit="OnLogin" FormName="Login">
                     <DataAnnotationsValidator />
                     <hr />
@@ -53,36 +54,30 @@
 @code {
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        await AccountService.RegisterUser(new RegisterUserRequest
-            {
-                Email = "test@gmail.com",
-                Role = "Admin"
-            });
-    }
+    private Alert alert;
 
     private async Task OnLogin()
     {
         var verify = await AccountService.VerifyUser(Input.Email, Input.Password);
         if (!verify.IsSuccess)
         {
+            // Show failure alert
+            alert.ShowFailure(verify.ErrorMessage);
             return;
         }
-        await SignInManager.PasswordSignInAsync(verify.Value, Input.Password, Input.RememberMe, false);
-        Nav.NavigateTo("/");
+
+        Nav.NavigateTo($"/processor/{verify.Value}/{Input.Password}/{Input.RememberMe}");
     }
 
     private sealed class InputModel
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         public bool RememberMe { get; set; }
     }
