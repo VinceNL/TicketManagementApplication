@@ -1,28 +1,26 @@
-﻿@page "/processor/{username}/{password}/{rememberMe:bool}"
+﻿@page "/processor/{payload}"
 @using Domain.Entities
 @using Microsoft.AspNetCore.Identity
 @layout EmptyLayout
 
 @inject SignInManager<User> SignInManager
 @inject NavigationManager Nav
+@inject EncryptionHelper<LoginDTO> Encrypt
 
 Sign In..
 
 @code {
-    [Parameter] public string Username { get; set; } = string.Empty;
-    [Parameter] public string Password { get; set; } = string.Empty;
-    [Parameter] public bool RememberMe { get; set; }
+    [Parameter] public string payload { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await SignInManager.PasswordSignInAsync(Username, Password, RememberMe, false);
+        var loginDTO = Encrypt.Decode(payload);
+        var result = await SignInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, loginDTO.RememberMe, false);
+
         if (result.Succeeded)
         {
             Nav.NavigateTo("/");
         }
-        else
-        {
-            Nav.NavigateTo("/login");
-        }
+        Nav.NavigateTo("/login");
     }
 }

@@ -9,6 +9,7 @@
 
 @inject IAccountService AccountService
 @inject NavigationManager Nav
+@inject EncryptionHelper<LoginDTO> Encrypt
 
 @rendermode InteractiveServer
 
@@ -66,7 +67,15 @@
             return;
         }
 
-        Nav.NavigateTo($"/processor/{verify.Value}/{Input.Password}/{Input.RememberMe}");
+        var loginData = new LoginDTO
+            {
+                UserName = verify.Value,
+                Password = Input.Password,
+                RememberMe = Input.RememberMe
+            };
+
+        var payload = Encrypt.Encode(loginData);
+        Nav.NavigateTo($"/processor/{payload}");
     }
 
     private sealed class InputModel
