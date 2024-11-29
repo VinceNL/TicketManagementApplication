@@ -17,13 +17,13 @@ namespace Domain.Entities
         public DateTime RaisedDate { get; set; }
         public DateTime ExpectedDate { get; set; }
 
-        public string AssignedToId { get; set; }
+        public string? AssignedToId { get; set; }
 
         [ForeignKey(nameof(AssignedToId))]
         public User? AssignedTo { get; set; }
 
 
-        public string RaisedBy { get; set; }
+        public string? RaisedBy { get; set; }
 
         [ForeignKey(nameof(RaisedBy))]
         public User? User { get; set; }
@@ -43,7 +43,7 @@ namespace Domain.Entities
         [ForeignKey(nameof(PriorityId))]
         public Priority Priority { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public virtual ICollection<Attachment> Attachments { get; set; }
 

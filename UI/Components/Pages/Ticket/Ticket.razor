@@ -1,0 +1,67 @@
+﻿@page "/ticket"
+
+<SectionContent SectionName="page-title">Ticket Management</SectionContent>
+@rendermode InteractiveServer
+@inject ITicketService TicketService
+<MudPopoverProvider />
+
+<div class="filter-panel">
+    Filter here
+</div>
+
+<MudDataGrid @ref="dataGrid" T="GetTicketResponse" SortMode="@SortMode.Single" ServerData="ServerReload" Filterable="false">
+    <Columns>
+        <PropertyColumn Property="x => x.TicketIdView" Title="Ticket ID" />
+        <PropertyColumn Property="x => x.Summary" Sortable="false" />
+        <PropertyColumn Property="x => x.Product" Sortable="false" />
+        <PropertyColumn Property="x => x.Category" Sortable="false" />
+        <PropertyColumn Property="x => x.Priority" Sortable="false" />
+        <PropertyColumn Property="x => x.Status" Sortable="false" />
+        <PropertyColumn Property="x => x.RaisedBy" Title="Raised By" />
+        <PropertyColumn Property="x => x.ExpectedDate" Title="Expected Date" Format="dd MMM yyyy" />
+        <PropertyColumn Property="x => x.CreatedDate" Title="Created Date" Format="dd MMM yyyy" />
+
+
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="GetTicketResponse" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    MudDataGrid<GetTicketResponse> dataGrid;
+
+    private async Task<GridData<GetTicketResponse>> ServerReload(GridState<GetTicketResponse> state)
+    {
+        IEnumerable<GetTicketResponse> data = TicketService.GetTickets(new GetTicketsRequest());
+
+        await Task.Delay(300);
+
+        var totalItems = data.Count();
+
+        var sortDefinition = state.SortDefinitions.FirstOrDefault();
+        if (sortDefinition != null)
+        {
+            var sortMappings = new Dictionary<string, Func<IEnumerable<GetTicketResponse>, bool, IOrderedEnumerable<GetTicketResponse>>>
+            {
+                { nameof(GetTicketResponse.TicketIdView), (data, descending) => data.OrderByDirection(descending ? SortDirection.Descending : SortDirection.Ascending, o => o.TicketIdView) },
+                { nameof(GetTicketResponse.RaisedBy), (data, descending) => data.OrderByDirection(descending ? SortDirection.Descending : SortDirection.Ascending, o => o.RaisedBy) },
+                { nameof(GetTicketResponse.ExpectedDate), (data, descending) => data.OrderByDirection(descending ? SortDirection.Descending : SortDirection.Ascending, o => o.ExpectedDate) },
+                { nameof(GetTicketResponse.CreatedDate), (data, descending) => data.OrderByDirection(descending ? SortDirection.Descending : SortDirection.Ascending, o => o.CreatedDate) }
+            };
+
+            if (sortMappings.TryGetValue(sortDefinition.SortBy, out var sortFunction))
+            {
+                data = sortFunction(data, sortDefinition.Descending);
+            }
+        }
+
+        var pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArray();
+
+        return new GridData<GetTicketResponse>
+            {
+                TotalItems = totalItems,
+                Items = pagedData
+            };
+    }
+}

@@ -7,14 +7,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services
 {
-    public class AccountService : IAccountService
+    public class AccountService(SignInManager<User> signInManager) : IAccountService
     {
-        private readonly SignInManager<User> _signInManager;
-
-        public AccountService(SignInManager<User> signInManager)
-        {
-            _signInManager = signInManager;
-        }
         public async Task<BaseResponse> RegisterUser(RegisterUserRequest request)
         {
             var user = new User
@@ -26,7 +20,7 @@ namespace Infrastructure.Services
 
             string password = Constants.DEFAULT_PASSWORD;
 
-            var result = await _signInManager.UserManager.CreateAsync(user, password);
+            var result = await signInManager.UserManager.CreateAsync(user, password);
             return new BaseResponse
             {
                 IsSuccess = result.Succeeded
@@ -35,7 +29,7 @@ namespace Infrastructure.Services
 
         public async Task<BaseResponse<string>> VerifyUser(string email, string password)
         {
-            var user = await _signInManager.UserManager.FindByEmailAsync(email);
+            var user = await signInManager.UserManager.FindByEmailAsync(email);
             if (user is null)
             {
                 return new BaseResponse<string>
@@ -45,7 +39,7 @@ namespace Infrastructure.Services
                 };
             }
 
-            var result = await _signInManager.UserManager.CheckPasswordAsync(user, password);
+            var result = await signInManager.UserManager.CheckPasswordAsync(user, password);
             return new BaseResponse<string>
             {
                 IsSuccess = result,

@@ -1,23 +1,14 @@
 ﻿using Domain.Repositories;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Infrastructure.Data;
 using System.Collections;
 
 namespace Infrastructure.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(AppDBContext context, ITicketRepository ticketRepository) : IUnitOfWork
     {
-        private readonly IdentityDbContext _context;
         private Hashtable? _repositories;
 
-        public UnitOfWork(IdentityDbContext context)
-        {
-            _context = context;
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        public ITicketRepository TicketRepository { get; } = ticketRepository;
 
         public IGenericRepository<T> Repository<T>() where T : class
         {
@@ -29,7 +20,7 @@ namespace Infrastructure.Repositories
             {
                 var repositoryType = typeof(GenericRepository<>);
                 var repositoryInstance = repositoryType.MakeGenericType(typeof(T));
-                var repository = new GenericRepository<T>(_context);
+                var repository = new GenericRepository<T>(context);
                 _repositories.Add(type, repository);
             }
 
@@ -38,12 +29,17 @@ namespace Infrastructure.Repositories
 
         public async Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
 
         public async Task<bool> SaveChangesReturnBoolAsync()
         {
-            return await _context.SaveChangesAsync() > 0;
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public void Dispose()
+        {
+            context.Dispose();
         }
     }
 }

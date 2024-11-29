@@ -1,6 +1,8 @@
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Repositories;
 using Infrastructure.Data;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,10 +32,21 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.ConfigureWarnings(warnings =>
+    {
+        warnings.Log(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning);
+    });
+});
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICriteriaService, CriteriaService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+
 builder.Services.AddScoped(typeof(EncryptionHelper<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
 builder.Services.AddMudServices();
 
