@@ -2,13 +2,24 @@
 using Domain.DTO.Response;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Repositories;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services
 {
-    public class AccountService(SignInManager<User> signInManager) : IAccountService
+    public class AccountService(SignInManager<User> signInManager, IUnitOfWork unitOfWork) : IAccountService
     {
+        public List<GetUserResponse> GetUsers()
+        {
+            return unitOfWork.Repository<User>().ListAll().Select(x => new GetUserResponse
+            {
+                Id = x.Id,
+                Email = x.Email,
+                Avatar = x.Avatar
+            }).ToList();
+        }
+
         public async Task<BaseResponse> RegisterUser(RegisterUserRequest request)
         {
             var user = new User

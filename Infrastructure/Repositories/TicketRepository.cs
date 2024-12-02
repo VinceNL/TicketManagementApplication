@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
 
             if (request.CategoryId != null && request.CategoryId.Count() > 0)
             {
-                query = query.Where(x => request.CategoryId.Contains(x.ProductId));
+                query = query.Where(x => request.CategoryId.Contains(x.CategoryId));
             }
 
             if (request.PriorityId != null && request.PriorityId.Count() > 0)
