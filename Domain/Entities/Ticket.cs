@@ -45,6 +45,12 @@ namespace Domain.Entities
 
         public string? Status { get; set; }
 
+        public string? ClosedBy { get; set; }
+
+        public DateTime? ClosedDate { get; set; }
+
+        public DateTime? LastUpdateDate { get; set; }
+
         public virtual ICollection<Attachment> Attachments { get; set; }
 
     }

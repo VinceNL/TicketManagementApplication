@@ -5,11 +5,11 @@
 @inject ITicketService TicketService
 @inject ICriteriaService CriteriaService
 @inject IAccountService AccountService
+@inject NavigationManager Nav
 
 <style>
-    /* input white background not working correctly in css behind file */
     .filter-panel {
-        padding: 10px 20px;
+        padding: 0 20px;
         position: relative;
         background-color: var(--light-green);
         width: 100%;
@@ -28,7 +28,8 @@
     }
 
     .mud-grid-item {
-        padding-bottom: .3rem;
+        padding-top: .3rem !important;
+        padding-bottom: .3rem !important;
     }
 </style>
 
@@ -77,7 +78,13 @@
     </MudGrid>
 </div>
 
-<MudDataGrid @ref="dataGrid" T="GetTicketResponse" SortMode="@SortMode.Single" ServerData="ServerReload" Filterable="false">
+<MudDataGrid @ref="dataGrid"
+             T="GetTicketResponse"
+             SortMode="@SortMode.Single"
+             ServerData="ServerReload"
+             Hover="true"
+             RowClick="OnRowClick">
+
     <Columns>
         <PropertyColumn Property="x => x.TicketIdView" Title="Ticket ID" />
         <PropertyColumn Property="x => x.Summary" Sortable="false" />
@@ -143,14 +150,15 @@
 
     private async Task<GridData<GetTicketResponse>> ServerReload(GridState<GetTicketResponse> state)
     {
-        IEnumerable<GetTicketResponse> data = TicketService.GetTickets(new GetTicketsRequest() {
+        IEnumerable<GetTicketResponse> data = TicketService.GetTickets(new GetTicketsRequest()
+            {
                 summary = Summary,
                 CategoryId = categorySelect.options.Select(x => int.Parse(x)).ToArray(),
                 ProductId = productSelect.options.Select(x => int.Parse(x)).ToArray(),
                 PriorityId = prioritySelect.options.Select(x => int.Parse(x)).ToArray(),
                 RaisedBy = raisedBySelect.options.ToArray(),
                 Status = statusSelect.options.ToArray(),
-        });
+            });
 
         await Task.Delay(300);
 
@@ -182,7 +190,13 @@
             };
     }
 
-    private Task Reset() {
+    private void OnRowClick(DataGridRowClickEventArgs<GetTicketResponse> args)
+    {
+        Nav.NavigateTo($"/ticket/details/{args.Item.TicketId}");
+    }
+
+    private Task Reset()
+    {
         productSelect.Clear();
         prioritySelect.Clear();
         categorySelect.Clear();

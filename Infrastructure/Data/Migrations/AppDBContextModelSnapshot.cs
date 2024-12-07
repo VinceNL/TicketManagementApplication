@@ -68,6 +68,7 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
                     b.Property<string>("CategoryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
@@ -206,10 +207,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ClosedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ClosedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PriorityId")
@@ -225,7 +235,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Summary")
@@ -255,7 +264,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 1"
@@ -268,7 +277,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 3, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 2"
@@ -281,7 +290,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 3"
@@ -294,7 +303,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 4"
@@ -307,7 +316,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 5"
@@ -320,7 +329,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 13, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 6"
@@ -333,7 +342,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 7"
@@ -346,7 +355,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 11, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 8"
@@ -359,7 +368,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 9"
@@ -372,7 +381,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 17, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 10"
@@ -385,7 +394,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 11"
@@ -398,7 +407,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "NEW",
                             Summary = "Sample ticket 12"
@@ -411,7 +420,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 13"
@@ -424,7 +433,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 14, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 14"
@@ -437,7 +446,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 15"
@@ -450,7 +459,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 16"
@@ -463,7 +472,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 17"
@@ -476,7 +485,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 18"
@@ -489,7 +498,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 19"
@@ -502,7 +511,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 20"
@@ -515,7 +524,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 21"
@@ -528,7 +537,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 22"
@@ -541,7 +550,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "OPEN",
                             Summary = "Sample ticket 23"
@@ -554,7 +563,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 24"
@@ -567,7 +576,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 25"
@@ -580,7 +589,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 26"
@@ -593,7 +602,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 27"
@@ -606,7 +615,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 28"
@@ -619,7 +628,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 29"
@@ -632,7 +641,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 30"
@@ -645,7 +654,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 31"
@@ -658,7 +667,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 32"
@@ -671,7 +680,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 33"
@@ -684,7 +693,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 34"
@@ -697,7 +706,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 35"
@@ -710,7 +719,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 36"
@@ -723,7 +732,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 37"
@@ -736,7 +745,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 38"
@@ -749,7 +758,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 39"
@@ -762,7 +771,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 40"
@@ -775,7 +784,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 41"
@@ -788,7 +797,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 42"
@@ -801,7 +810,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 43"
@@ -814,7 +823,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 44"
@@ -827,7 +836,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 45"
@@ -840,7 +849,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 46"
@@ -853,7 +862,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 47"
@@ -866,7 +875,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 48"
@@ -879,7 +888,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 49"
@@ -892,7 +901,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 50"
@@ -905,7 +914,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 51"
@@ -918,7 +927,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 52"
@@ -931,7 +940,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 53"
@@ -944,7 +953,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 54"
@@ -957,7 +966,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 55"
@@ -970,7 +979,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 56"
@@ -983,7 +992,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 57"
@@ -996,7 +1005,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 2,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 58"
@@ -1009,7 +1018,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 10, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 1,
                             ProductId = 1,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 59"
@@ -1022,7 +1031,7 @@ namespace Infrastructure.Data.Migrations
                             ExpectedDate = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PriorityId = 3,
                             ProductId = 2,
-                            RaisedBy = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            RaisedBy = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             RaisedDate = new DateTime(2024, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "CLOSED",
                             Summary = "Sample ticket 60"
@@ -1102,18 +1111,18 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "17dd1009-67a4-494a-aee6-2549d81552ed",
+                            Id = "8c6afcfa-3695-4178-b8bf-6996395744a9",
                             AccessFailedCount = 0,
                             AccountConfirmed = false,
-                            ConcurrencyStamp = "d211fd42-78ed-4fcd-b513-ff75b84046ea",
+                            ConcurrencyStamp = "04e302b5-c76f-40fd-b5cc-79227774df3d",
                             Email = "test@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST@GMAIL.COM",
                             NormalizedUserName = "TEST@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGTFOS6gHU/ctf9DNkitpIc567RZh8AdlwlDQyqAc+22iOCrycQfqYqylYhrYZw/Dg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL3M0eToTSYO2Ekvz8CkMZkpKWH6FR/uKCKTRfdiqdBUPVJnHkoHcFJxWM213sa3rQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cfb81915-50b4-450c-a7a9-73498a3c5c87",
+                            SecurityStamp = "f5bdab8c-4672-46d7-adc3-4266741f0ac3",
                             TwoFactorEnabled = false,
                             UserName = "test@gmail.com"
                         });
