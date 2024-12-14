@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
     <PackageReference Include="MudBlazor" Version="7.15.0" />
+    <PackageReference Include="MudExRichTextEditor" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\img\" />
+    <Folder Include="wwwroot\uploads\attachments\" />
   </ItemGroup>
 
 </Project>

@@ -26,5 +26,8 @@
         public DateTime CreatedDate { get; set; }
         public string ClosedBy { get; set; }
         public DateTime? ClosedDate { get; set; }
+        public List<AttachmentResponse> Attachments { get; set; }
     }
 }
+
+public record AttachmentResponse(string FileName, string ServerFileName);

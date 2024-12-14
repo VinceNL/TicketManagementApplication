@@ -7,7 +7,7 @@ namespace Domain.Entities
         public int AttachmentId { get; set; }
         public string FileName { get; set; }
         public string ServerFileName { get; set; }
-        public int FileSize { get; set; }
+        public long FileSize { get; set; }
         public DateTime CreatedDate { get; set; }
 
 
