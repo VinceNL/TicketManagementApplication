@@ -1,4 +1,7 @@
 ﻿@page "/ticket"
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 @rendermode InteractiveServer
 @inject ITicketService TicketService
@@ -103,20 +106,23 @@
 </MudDataGrid>
 
 @code {
-    MudDataGrid<GetTicketResponse> dataGrid;
-    MultiSelect productSelect;
-    MultiSelect prioritySelect;
-    MultiSelect categorySelect;
-    MultiSelect statusSelect;
-    MultiSelect raisedBySelect;
+    [SupplyParameterFromQuery]
+    public string? filterStatus { get; set; }
+
+    private MudDataGrid<GetTicketResponse> dataGrid = new();
+    private MultiSelect productSelect = new();
+    private MultiSelect prioritySelect = new();
+    private MultiSelect categorySelect = new();
+    private MultiSelect statusSelect = new();
+    private MultiSelect raisedBySelect = new();
 
     public string Summary { get; set; } = string.Empty;
 
-    private List<SelectItem> products;
-    private List<SelectItem> priorities;
-    private List<SelectItem> categories;
-    private List<SelectItem> status;
-    private List<SelectItem> raisedBy;
+    private List<SelectItem> products = new();
+    private List<SelectItem> priorities = new();
+    private List<SelectItem> categories = new();
+    private List<SelectItem> status = new();
+    private List<SelectItem> raisedBy = new();
 
     protected override Task OnInitializedAsync()
     {
@@ -149,6 +155,8 @@
 
     private async Task<GridData<GetTicketResponse>> ServerReload(GridState<GetTicketResponse> state)
     {
+        ApplyFilterStatus();
+
         IEnumerable<GetTicketResponse> data = TicketService.GetTickets(new GetTicketsRequest()
             {
                 summary = Summary,
@@ -162,7 +170,29 @@
         await Task.Delay(300);
 
         var totalItems = data.Count();
+        data = ApplySorting(state, data);
 
+        var pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArray();
+
+        return new GridData<GetTicketResponse>
+            {
+                TotalItems = totalItems,
+                Items = pagedData
+            };
+    }
+
+    private void ApplyFilterStatus()
+    {
+        if (filterStatus != null)
+        {
+            statusSelect.options = new List<string> { filterStatus.ToUpper() };
+            filterStatus = null;
+            StateHasChanged();
+        }
+    }
+
+    private static IEnumerable<GetTicketResponse> ApplySorting(GridState<GetTicketResponse> state, IEnumerable<GetTicketResponse> data)
+    {
         var sortDefinition = state.SortDefinitions.FirstOrDefault();
         if (sortDefinition != null)
         {
@@ -180,13 +210,7 @@
             }
         }
 
-        var pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArray();
-
-        return new GridData<GetTicketResponse>
-            {
-                TotalItems = totalItems,
-                Items = pagedData
-            };
+        return data;
     }
 
     private void OnRowClick(DataGridRowClickEventArgs<GetTicketResponse> args)

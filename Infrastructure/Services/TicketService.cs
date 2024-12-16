@@ -186,5 +186,20 @@ namespace Infrastructure.Services
 
             return result;
         }
+
+        public List<ChartResponse> GetSummary()
+        {
+            return unitOfWork.TicketRepository.GetSummary();
+        }
+
+        public List<ChartResponse> GetLastYearsTickets()
+        {
+            return unitOfWork.TicketRepository.GetLastYearsTickets();
+        }
+
+        public List<ChartResponse> ChartByCategory(string category)
+        {
+            return unitOfWork.TicketRepository.ChartByCategory(category);
+        }
     }
 }

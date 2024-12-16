@@ -9,5 +9,9 @@ namespace Domain.Interfaces
         GetTicketResponse FindTicket(int ticketId);
         Task<BaseResponse> UpdateTicket(UpdateTicketRequest request);
         Task<BaseResponse<int>> CreateTicket(CreateTicketRequest request);
+
+        List<ChartResponse> GetLastYearsTickets();
+        List<ChartResponse> ChartByCategory(string category);
+        List<ChartResponse> GetSummary();
     }
 }

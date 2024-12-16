@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using MudExRichTextEditor
 @using UI.Extensions.Helpers
+
 @attribute [Authorize]
 
 @inject NavigationManager Nav
@@ -139,32 +140,31 @@
 </div>
 
 @code {
-    private Alert alert;
-    string?[] errors = { };
+    private Alert alert = new();
+    private string?[] errors = { };
 
-    MudTextField<string> summary;
-    MudExRichTextEdit descriptionEditor;
+    private MudTextField<string> summary = new();
+    private MudExRichTextEdit descriptionEditor = new();
 
-    Select productDDL;
-    Select categoryDDL;
-    Select assignDDL;
-    Select priorityDDL;
+    private Select productDDL = new();
+    private Select categoryDDL = new();
+    private Select assignDDL = new();
+    private Select priorityDDL = new();
 
-    private List<SelectItem> products;
-    private List<SelectItem> priorities;
-    private List<SelectItem> categories;
-    private List<SelectItem> users;
+    private List<SelectItem> products = new();
+    private List<SelectItem> priorities = new();
+    private List<SelectItem> categories = new();
+    private List<SelectItem> users = new();
 
     private IList<IBrowserFile> Files = new List<IBrowserFile>();
 
     protected override Task OnInitializedAsync()
     {
-        InitialeDropdown();
-
+        InitializeDropdowns();
         return Task.CompletedTask;
     }
 
-    private void InitialeDropdown()
+    private void InitializeDropdowns()
     {
         products = CriteriaService.GetProducts()
                     .Select(x => new SelectItem { Value = x.ProductId.ToString(), Text = x.ProductName })

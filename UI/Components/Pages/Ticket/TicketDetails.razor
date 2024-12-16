@@ -2,6 +2,7 @@
 @using Infrastructure.Common
 @using Microsoft.AspNetCore.Authorization
 @using UI.Extensions.Helpers
+
 @attribute [Authorize]
 
 @inject ITicketService TicketService
@@ -145,28 +146,27 @@
 @code {
     [Parameter] public int TicketId { get; set; }
 
-    Select productDDL;
-    Select categoryDDL;
-    Select assignDDL;
-    Select priorityDDL;
-    Select statusDDL;
+    private Select productDDL = new();
+    private Select categoryDDL = new();
+    private Select assignDDL = new();
+    private Select priorityDDL = new();
+    private Select statusDDL = new();
 
-    private GetTicketResponse Ticket;
-    private List<SelectItem> products;
-    private List<SelectItem> priorities;
-    private List<SelectItem> categories;
-    private List<SelectItem> status;
-    private List<SelectItem> users;
+    private GetTicketResponse Ticket = new();
+    private List<SelectItem> products = new();
+    private List<SelectItem> priorities = new();
+    private List<SelectItem> categories = new();
+    private List<SelectItem> status = new();
+    private List<SelectItem> users = new();
 
     private bool isClosed = false;
-    private Alert alert;
+    private Alert alert = new();
     private string?[] errors = [];
 
     protected override Task OnInitializedAsync()
     {
         Ticket = TicketService.FindTicket(TicketId);
-        InitialeDropdown();
-
+        InitializeDropdowns();
         return Task.CompletedTask;
     }
 
@@ -176,6 +176,29 @@
         {
             AssignTicketValues();
         }
+    }
+
+    private void InitializeDropdowns()
+    {
+        products = CriteriaService.GetProducts()
+                    .Select(x => new SelectItem { Value = x.ProductId.ToString(), Text = x.ProductName })
+                    .ToList();
+
+        priorities = CriteriaService.GetPriorities()
+                    .Select(x => new SelectItem { Value = x.PriorityId.ToString(), Text = x.PriorityName })
+                    .ToList();
+
+        categories = CriteriaService.GetCategories()
+                    .Select(x => new SelectItem { Value = x.CategoryId.ToString(), Text = x.CategoryName })
+                    .ToList();
+
+        status = CriteriaService.GetStatus()
+                    .Select(x => new SelectItem { Value = x, Text = x })
+                    .ToList();
+
+        users = AccountService.GetUsers()
+                    .Select(x => new SelectItem { Value = x.Id, Text = x.Email })
+                    .ToList();
     }
 
     private void AssignTicketValues()
@@ -203,29 +226,6 @@
         StateHasChanged();
     }
 
-    private void InitialeDropdown()
-    {
-        products = CriteriaService.GetProducts()
-                    .Select(x => new SelectItem { Value = x.ProductId.ToString(), Text = x.ProductName })
-                    .ToList();
-
-        priorities = CriteriaService.GetPriorities()
-                    .Select(x => new SelectItem { Value = x.PriorityId.ToString(), Text = x.PriorityName })
-                    .ToList();
-
-        categories = CriteriaService.GetCategories()
-                    .Select(x => new SelectItem { Value = x.CategoryId.ToString(), Text = x.CategoryName })
-                    .ToList();
-
-        status = CriteriaService.GetStatus()
-                    .Select(x => new SelectItem { Value = x, Text = x })
-                    .ToList();
-
-        users = AccountService.GetUsers()
-                    .Select(x => new SelectItem { Value = x.Id, Text = x.Email })
-                    .ToList();
-    }
-
     private void BackToTicketList()
     {
         Nav.NavigateTo("/ticket");
@@ -243,10 +243,10 @@
                 Status = statusDDL.selectedValue ?? string.Empty
             };
 
-        ValidationHelpers helper = new ValidationHelpers(request);
-        bool isValid = helper.Validate();
+        var validationHelper = new ValidationHelpers(request);
+        bool isValid = validationHelper.Validate();
 
-        errors = helper.validationResults.Select(x => x.ErrorMessage).ToArray();
+        errors = validationHelper.validationResults.Select(x => x.ErrorMessage).ToArray();
 
         if (isValid)
         {
@@ -270,3 +270,4 @@
         await Update();
     }
 }
+
