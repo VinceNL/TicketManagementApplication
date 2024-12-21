@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Sockets;
@@ -29,6 +30,31 @@ namespace Infrastructure.Extensions
 
             //seed user
             modelBuilder.Entity<User>().HasData(appUser);
+
+            //seed roles
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = Constants.ROLE_ADMIN_ID,
+                    Name = Constants.ROLE_ADMIN,
+                    NormalizedName = Constants.ROLE_ADMIN.ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = Constants.ROLE_USER_ID,
+                    Name = Constants.ROLE_USER,
+                    NormalizedName = Constants.ROLE_USER.ToUpper()
+                }
+            );
+
+            // Assign role to user
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = Constants.ROLE_ADMIN_ID,
+                    UserId = user1
+                }
+            );
 
             modelBuilder.Entity<Category>().HasData(
                 new Category

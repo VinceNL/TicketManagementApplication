@@ -6,5 +6,6 @@ namespace Domain.Entities
     {
         public string? Avatar { get; set; }
         public bool AccountConfirmed { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

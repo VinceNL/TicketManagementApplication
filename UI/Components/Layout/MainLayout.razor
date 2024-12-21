@@ -2,6 +2,11 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inherits LayoutComponentBase
 
+<MudThemeProvider Theme="MyCustomTheme" />
+<MudPopoverProvider @rendermode="InteractiveServer" />
+<MudDialogProvider @rendermode="InteractiveServer" />
+<MudSnackbarProvider @rendermode="InteractiveServer" />
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -18,7 +23,6 @@
         </div>
 
         <article class="content">
-            <MudThemeProvider Theme="MyCustomTheme" />
             @Body
         </article>
     </main>

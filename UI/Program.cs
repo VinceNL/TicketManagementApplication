@@ -21,6 +21,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
 builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDBContext>()
     .AddSignInManager();
 

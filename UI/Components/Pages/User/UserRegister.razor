@@ -1,0 +1,78 @@
+﻿@using Infrastructure.Common
+@using UI.Extensions.Helpers
+
+@inject IAccountService AccountService
+@inject ISnackbar Snackbar
+
+<MudDialog ContentStyle="width 400px;">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Add New User
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <Alert @ref="alert" />
+
+        @if (errors.Length > 0)
+        {
+            <MudItem>
+                <MudPaper Class="pa-4 mud-height-full">
+                    @foreach (var error in errors)
+                    {
+                        <MudText Color="@Color.Error">@error</MudText>
+                    }
+                </MudPaper>
+            </MudItem>
+        }
+        <div>
+            <MudTextField @bind-Value="@Email" Variant="Variant.Outlined" Label="Email" />
+        </div>
+        <div class="mt-2">
+            <Select @ref="RoleDDl" elements="@roles" placeholder="Role" />
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="() => MudDialog.Cancel()">Cancel</MudButton>
+        <MudButton Color="Color.Success" OnClick="RegisterUser">Register New User</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    Alert alert = new();
+    string[] errors = { };
+
+    [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = new MudDialogInstance();
+
+    public string Email { get; set; } = string.Empty;
+    public Select RoleDDl { get; set; } = new Select();
+
+    List<SelectItem> roles = Constants.UserRoles.Select(x => new SelectItem { Value = x.Value, Text = x.Value }).ToList();
+
+    private async Task RegisterUser()
+    {
+        var request = new RegisterUserRequest
+            {
+                Email = Email,
+                Role = RoleDDl.selectedValue ?? string.Empty
+            };
+
+        ValidationHelpers validationHelper = new(request);
+        bool isValid = validationHelper.Validate();
+
+        errors = validationHelper.validationResults.Select(x => x.ErrorMessage ?? string.Empty).ToArray();
+
+        if (isValid)
+        {
+            var result = await AccountService.RegisterUser(request);
+            if (result.IsSuccess)
+            {
+                Snackbar.Add("Registering User Succeeded", Severity.Success);
+                MudDialog.Close();
+            }
+            else
+            {
+                alert.ShowFailure(result.ErrorMessage);
+            }
+        }
+    }
+}
