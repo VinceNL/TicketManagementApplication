@@ -124,9 +124,9 @@
                     </MudItem>
                 }
                 <MudButton @onclick="CreateTicket" Variant="Variant.Filled"
-                           FullWidth="true"
-                           EndIcon="@Icons.Material.Filled.Save"
-                           Color="Color.Primary">
+                FullWidth="true"
+                EndIcon="@Icons.Material.Filled.Save"
+                Color="Color.Primary">
                     Create Ticket
                 </MudButton>
                 <Select @ref="productDDL" elements="products" label="Product"></Select>
@@ -180,6 +180,8 @@
         users = AccountService.GetUsers()
                     .Select(x => new SelectItem { Value = x.Id, Text = x.Email })
                     .ToList();
+
+        StateHasChanged();
     }
 
     private void BackToTicketList()

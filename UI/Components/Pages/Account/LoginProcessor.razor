@@ -10,16 +10,18 @@
 Sign In..
 
 @code {
-    [Parameter] public string payload { get; set; }
+    [Parameter] public string payload { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         var loginDTO = Encrypt.Decode(payload);
+
+        var user = await SignInManager.UserManager.FindByEmailAsync(loginDTO.UserName) ?? new() { AccountConfirmed = false };
         var result = await SignInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, loginDTO.RememberMe, false);
 
         if (result.Succeeded)
         {
-            Nav.NavigateTo("/");
+            Nav.NavigateTo(user.AccountConfirmed ? "/" : "/changepassword?required=true");
         }
         Nav.NavigateTo("/login");
     }
