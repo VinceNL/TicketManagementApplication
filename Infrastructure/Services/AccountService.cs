@@ -6,7 +6,6 @@ using Domain.Repositories;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services
@@ -14,15 +13,15 @@ namespace Infrastructure.Services
     public class AccountService(
         SignInManager<User> signInManager,
         IUnitOfWork unitOfWork,
-        IHttpContextAccessor httpContext,
-        IWebHostEnvironment environment) : IAccountService
+        IWebHostEnvironment environment,
+        IUserUtility userUtility) : IAccountService
     {
         public async Task<BaseResponse> ChangePassword(ChangePasswordRequest request)
         {
             BaseResponse response = new();
             response.IsSuccess = false;
 
-            var user = await GetCurrentUser();
+            var user = await GetCurrentUserAsync();
             if (!user.IsSuccess)
             {
                 response.ErrorMessage = user.ErrorMessage;
@@ -52,29 +51,25 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<BaseResponse<User>> GetCurrentUser()
+        public async Task<BaseResponse<User>> GetCurrentUserAsync()
         {
             BaseResponse<User> response = new();
-            response.IsSuccess = false;
+            var user = await userUtility.GetCurrentUserAsync();
 
-            var currentUser = httpContext.HttpContext?.User.Identities.FirstOrDefault(x => x.IsAuthenticated)?.Name;
-            if (currentUser == null)
+            if (user == null)
             {
                 response.ErrorMessage = "User not found";
-                return response;
             }
-
-            var user = await signInManager.UserManager.FindByEmailAsync(currentUser);
-            if (user is null)
+            else
             {
-                response.ErrorMessage = "User not found";
-                return response;
+                response.Value = user;
+                response.IsSuccess = true;
             }
 
-            response.Value = user;
-            response.IsSuccess = true;
             return response;
         }
+
+
 
         public async Task<BaseResponse> RemoveUser(string email)
         {
@@ -106,7 +101,7 @@ namespace Infrastructure.Services
             response.IsSuccess = false;
             var uploadPath = Path.Combine(environment.WebRootPath, "uploads", "avatars");
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await GetCurrentUserAsync();
             if (!currentUser.IsSuccess)
             {
                 response.ErrorMessage = currentUser.ErrorMessage;
@@ -147,7 +142,7 @@ namespace Infrastructure.Services
             string previousAvatar = string.Empty;
             var uploadPath = Path.Combine(environment.WebRootPath, "uploads", "avatars");
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await GetCurrentUserAsync();
             if (!currentUser.IsSuccess)
             {
                 response.ErrorMessage = currentUser.ErrorMessage;

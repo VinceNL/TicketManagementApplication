@@ -10,5 +10,6 @@ namespace Domain.Repositories
         List<ChartResponse> GetLastYearsTickets();
         List<ChartResponse> ChartByCategory(string category);
         List<ChartResponse> GetSummary();
+        Ticket FindTicket(int ticketId);
     }
 }

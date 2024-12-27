@@ -61,7 +61,7 @@
     {
         if (firstRender)
         {
-            var user = await accountService.GetCurrentUser();
+            var user = await accountService.GetCurrentUserAsync();
             if (user.IsSuccess)
             {
                 email = user.Value.Email ?? string.Empty;

@@ -5,11 +5,13 @@ using Domain.Interfaces;
 using Domain.Repositories;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services
 {
-    public class TicketService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) : ITicketService
+    public class TicketService(
+        IUnitOfWork unitOfWork, 
+        IWebHostEnvironment webHostEnvironment, 
+        IUserUtility userUtility) : ITicketService
     {
         public async Task<BaseResponse<int>> CreateTicket(CreateTicketRequest request)
         {
@@ -18,8 +20,8 @@ namespace Infrastructure.Services
 
             try
             {
-                var currentUser = httpContextAccessor.HttpContext?.User.Identities.FirstOrDefault(x => x.IsAuthenticated)?.Name;
-                if (currentUser == null)
+                User? currentUser = await userUtility.GetCurrentUserAsync();
+                if (currentUser?.Email == null)
                 {
                     createTicketResult.ErrorMessage = "User not found";
                     return createTicketResult;
@@ -36,7 +38,7 @@ namespace Infrastructure.Services
                     PriorityId = request.PriorityId!.Value,
                     AssignedToId = request.AssignedToId,
                     RaisedDate = DateTime.Now,
-                    RaisedBy = currentUser,
+                    RaisedBy = currentUser?.Id,
                     Status = Constants.STATUS_NEW,
                     ExpectedDate = priority != null ? DateTime.Now.AddDays(priority.ExpectedDays) : DateTime.Now.AddDays(3)
                 };
@@ -61,7 +63,7 @@ namespace Infrastructure.Services
                             FileName = Path.GetFileName(file.Name),
                             ServerFileName = fileName,
                             FileSize = file.Size,
-                            TicketId = ticket.TicketId
+                            CreatedDate = DateTime.Now
                         };
                         unitOfWork.Repository<Attachment>().Add(attachment);
                     }
@@ -88,10 +90,9 @@ namespace Infrastructure.Services
 
         public GetTicketResponse FindTicket(int ticketId)
         {
-            var result = unitOfWork.Repository<Ticket>().GetByIdAsync(ticketId);
+            var result = unitOfWork.TicketRepository.FindTicket(ticketId);
             if (result is null) throw new Exception("Ticket not found");
 
-            var attachments = unitOfWork.Repository<Attachment>().ListAll().Where(x => x.TicketId == result.TicketId);
             var attachmentPath = Path.Combine("uploads", "attachments");
             
             return new GetTicketResponse
@@ -106,11 +107,12 @@ namespace Infrastructure.Services
                 AssignedToId = result.AssignedToId ?? string.Empty,
                 RaisedBy = result.User?.Id ?? string.Empty,
                 RaisedByName = result.User?.Email ?? string.Empty,
+                RaisedByAvatar = result.User?.Avatar ?? string.Empty,
                 CreatedDate = result.RaisedDate,
                 ExpectedDate = result.ExpectedDate,
                 ClosedBy = result.ClosedBy ?? string.Empty,
                 ClosedDate = result.ClosedDate,
-                Attachments = attachments.Select(x => new AttachmentResponse
+                Attachments = result.Attachments.Select(x => new AttachmentResponse
                 (
                     FileName: x.FileName, 
                     ServerFileName: Path.Combine(attachmentPath, x.ServerFileName)
@@ -161,14 +163,14 @@ namespace Infrastructure.Services
             if (request.Status == Constants.STATUS_CLOSED)
             {
                 currentTicket.ClosedDate = DateTime.Now;
-                var currentUser = httpContextAccessor.HttpContext?.User.Identities.FirstOrDefault(x => x.IsAuthenticated)?.Name;
+                User? currentUser = await userUtility.GetCurrentUserAsync();
 
-                if (currentUser is null)
+                if (currentUser?.Email == null)
                 {
                     result.ErrorMessage = "User not found";
                     return result;
                 }
-                currentTicket.ClosedBy = currentUser;
+                currentTicket.ClosedBy = currentUser?.Email;
             }
 
             unitOfWork.TicketRepository.Update(currentTicket);

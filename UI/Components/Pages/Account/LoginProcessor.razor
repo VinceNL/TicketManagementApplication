@@ -21,7 +21,7 @@ Sign In..
 
         if (result.Succeeded)
         {
-            Nav.NavigateTo(user.AccountConfirmed ? "/" : "/changepassword?required=true");
+            Nav.NavigateTo(user.AccountConfirmed ? "/" : "/changepassword");
         }
         Nav.NavigateTo("/login");
     }

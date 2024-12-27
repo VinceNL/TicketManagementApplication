@@ -4,11 +4,13 @@ using System.Collections;
 
 namespace Infrastructure.Repositories
 {
-    public class UnitOfWork(AppDBContext context, ITicketRepository ticketRepository) : IUnitOfWork
+    public class UnitOfWork(AppDBContext context, ITicketRepository ticketRepository, IDiscussionRepository discussionRepository) : IUnitOfWork
     {
         private Hashtable? _repositories;
 
         public ITicketRepository TicketRepository { get; } = ticketRepository;
+
+        public IDiscussionRepository DiscussionRepository { get; } = discussionRepository;
 
         public IGenericRepository<T> Repository<T>() where T : class
         {

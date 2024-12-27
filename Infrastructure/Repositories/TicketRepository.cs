@@ -126,5 +126,14 @@ namespace Infrastructure.Repositories
 
             return query;
         }
+
+        public Ticket FindTicket(int ticketId)
+        {
+            return context.Set<Ticket>()
+                .Include(x => x.User)
+                .Include(x => x.Attachments)
+                .FirstOrDefault(x => x.TicketId == ticketId)
+                ?? throw new Exception("Ticket not found");
+        }
     }
 }

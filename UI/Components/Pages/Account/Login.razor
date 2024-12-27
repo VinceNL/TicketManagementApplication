@@ -79,6 +79,7 @@
         var user = await SignInManager.UserManager.FindByEmailAsync(verify.Value);
         await ProtectedSessionStore.SetAsync("avatar", user?.Avatar ?? string.Empty);
         await ProtectedSessionStore.SetAsync("email", user?.Email ?? string.Empty);
+        await ProtectedSessionStore.SetAsync("accountconfirmed", user?.AccountConfirmed ?? false);
 
         var payload = Encrypt.Encode(loginData);
         Nav.NavigateTo($"/processor/{payload}");
