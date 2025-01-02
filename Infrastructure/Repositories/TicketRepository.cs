@@ -8,11 +8,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class TicketRepository(AppDBContext context) : GenericRepository<Ticket>(context), ITicketRepository
+    public class TicketRepository : GenericRepository<Ticket>, ITicketRepository
     {
+        private readonly AppDBContext _context;
+
+        public TicketRepository(AppDBContext context) : base(context)
+        {
+            _context = context;
+        }
+
         public List<Ticket> GetTickets(GetTicketsRequest request)
         {
-            IQueryable<Ticket> query = context.Set<Ticket>()
+            IQueryable<Ticket> query = _context.Set<Ticket>()
                 .Include(x => x.Category)
                 .Include(x => x.Priority)
                 .Include(x => x.Product)
@@ -32,17 +39,17 @@ namespace Infrastructure.Repositories
             switch (category)
             {
                 case "category":
-                    data = context.Set<Ticket>()
+                    data = _context.Set<Ticket>()
                         .Include(x => x.Category)
                         .GroupBy(x => x.Category.CategoryName);
                     break;
                 case "product":
-                    data = context.Set<Ticket>()
+                    data = _context.Set<Ticket>()
                         .Include(x => x.Product)
                         .GroupBy(x => x.Product.ProductName);
                     break;
                 case "priority":
-                    data = context.Set<Ticket>()
+                    data = _context.Set<Ticket>()
                         .Include(x => x.Priority)
                         .GroupBy(x => x.Priority.PriorityName);
                     break;
@@ -57,10 +64,9 @@ namespace Infrastructure.Repositories
             }).ToList();
         }
 
-
         public List<ChartResponse> GetSummary()
         {
-            return context.Set<Ticket>()
+            return _context.Set<Ticket>()
                 .GroupBy(x => x.Status)
                 .Select(x => new ChartResponse
                 {
@@ -74,7 +80,7 @@ namespace Infrastructure.Repositories
             var endMonth = DateTime.Now;
             var startMonth = endMonth.AddMonths(-11);
 
-            var query = context.Set<Ticket>()
+            var query = _context.Set<Ticket>()
                 .Where(x => x.RaisedDate >= startMonth && x.RaisedDate <= endMonth)
                 .GroupBy(x => new { x.RaisedDate.Year, x.RaisedDate.Month })
                 .Select(g => new
@@ -130,7 +136,7 @@ namespace Infrastructure.Repositories
 
         public Ticket FindTicket(int ticketId)
         {
-            var ticket = context.Set<Ticket>()
+            var ticket = _context.Set<Ticket>()
                 .Include(x => x.User)
                 .Include(x => x.Attachments)
                 .FirstOrDefault(x => x.TicketId == ticketId);

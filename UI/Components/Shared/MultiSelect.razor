@@ -16,10 +16,10 @@
 </MudSelect>
 
 @code {
-    [Parameter] public string Label { get; set; }
-    [Parameter] public List<SelectItem> Elements { get; set; }
+    [Parameter] public string Label { get; set; } = "Select";
+    [Parameter] public List<SelectItem> Elements { get; set; } = new();
     public IEnumerable<string> options { get; set; } = new HashSet<string>() {};
-    private MudSelect<string> selectList;
+    private MudSelect<string> selectList { get; set; } = new();
 
     private string GetMultiSelectText(List<string> selectedValues)
     {

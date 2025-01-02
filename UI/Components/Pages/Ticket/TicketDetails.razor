@@ -88,11 +88,10 @@
                                 @foreach (var item in Ticket.Attachments)
                                 {
                                     <MudItem>
-                                        <MudButton Download="@item.FileName"
-                                        Href="@item.ServerFileName"
-                                        Variant="Variant.Outlined"
-                                        StartIcon="@Icons.Material.Filled.CloudDownload"
-                                        Color="Color.Primary">
+                                        <MudButton Href="@item.ServerFileName"
+                                                   Variant="Variant.Outlined"
+                                                   StartIcon="@Icons.Material.Filled.CloudDownload"
+                                                   Color="Color.Primary">
                                             @item.FileName
                                         </MudButton>
                                     </MudItem>
@@ -127,10 +126,10 @@
                     </MudItem>
                 }
                 <MudButton Variant="Variant.Filled"
-                FullWidth="true"
-                EndIcon="@Icons.Material.Filled.Save"
-                Color="Color.Primary"
-                @onclick="Update">
+                           FullWidth="true"
+                           EndIcon="@Icons.Material.Filled.Save"
+                           Color="Color.Primary"
+                           @onclick="Update">
                     Update Ticket
                 </MudButton>
                 <MudTextField T="string" ReadOnly="true" Text="@Ticket.ExpectedDate.BeautifyDate()" Label="Expected Completion Date" Variant="Variant.Outlined"></MudTextField>

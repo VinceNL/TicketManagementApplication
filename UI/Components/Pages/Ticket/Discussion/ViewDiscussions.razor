@@ -53,8 +53,7 @@
                             @foreach (var item in item.Attachments)
                             {
                                 <MudItem>
-                                    <MudButton Download="@item.FileName"
-                                               Href="@item.ServerFileName"
+                                    <MudButton Href="@item.ServerFileName"
                                                Variant="Variant.Outlined"
                                                StartIcon="@Icons.Material.Filled.CloudDownload"
                                                Color="Color.Primary">

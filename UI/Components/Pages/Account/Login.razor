@@ -58,7 +58,7 @@
 @code {
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
-    private Alert alert;
+    private Alert alert = new();
 
     private async Task OnLogin()
     {

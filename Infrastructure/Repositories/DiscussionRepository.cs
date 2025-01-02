@@ -5,11 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class DiscussionRepository(AppDBContext dbContext) : GenericRepository<Discussion>(dbContext), IDiscussionRepository
+    public class DiscussionRepository : GenericRepository<Discussion>, IDiscussionRepository
     {
+        private readonly AppDBContext _dbContext;
+
+        public DiscussionRepository(AppDBContext dbContext) : base(dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public List<Discussion> GetDiscussions(int ticketId)
         {
-            return dbContext.Set<Discussion>()
+            return _dbContext.Set<Discussion>()
                 .Include(x => x.Attachments)
                 .Include(x => x.User)
                 .Where(x => x.TicketId == ticketId)
