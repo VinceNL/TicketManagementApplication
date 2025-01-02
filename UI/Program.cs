@@ -1,3 +1,6 @@
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Repositories;
@@ -32,9 +35,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/accessdenied";
 });
 
+var keyVaultEndpoint = new Uri(builder.Configuration["KeyVault:Endpoint"]!);
+var client = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+builder.Configuration.AddAzureKeyVault(client, new KeyVaultSecretManager());
+
 builder.Services.AddDbContext<AppDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration["DefaultConnection"]);
     options.ConfigureWarnings(warnings =>
     {
         warnings.Log(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning);
