@@ -11,12 +11,12 @@ namespace Infrastructure.Data
         {
         }
 
-        DbSet<Ticket> Tickets { get; set; }
-        DbSet<Product> Products { get; set; }
-        DbSet<Priority> Priorities { get; set; }
-        DbSet<Discussion> Discussions { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Attachment> Attachments { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Priority> Priorities { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
