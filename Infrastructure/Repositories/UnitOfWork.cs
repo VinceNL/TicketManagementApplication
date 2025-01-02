@@ -7,10 +7,11 @@ namespace Infrastructure.Repositories
     public class UnitOfWork(AppDBContext context, ITicketRepository ticketRepository, IDiscussionRepository discussionRepository) : IUnitOfWork
     {
         private Hashtable? _repositories;
+        private bool _disposed = false;
 
-        public ITicketRepository TicketRepository { get; } = ticketRepository;
+        public ITicketRepository TicketRepository => ticketRepository;
 
-        public IDiscussionRepository DiscussionRepository { get; } = discussionRepository;
+        public IDiscussionRepository DiscussionRepository => discussionRepository;
 
         public IGenericRepository<T> Repository<T>() where T : class
         {
@@ -20,8 +21,6 @@ namespace Infrastructure.Repositories
 
             if (!_repositories.ContainsKey(type))
             {
-                var repositoryType = typeof(GenericRepository<>);
-                var repositoryInstance = repositoryType.MakeGenericType(typeof(T));
                 var repository = new GenericRepository<T>(context);
                 _repositories.Add(type, repository);
             }
@@ -39,9 +38,22 @@ namespace Infrastructure.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+                _disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -14,7 +14,7 @@
         public const string ROLE_ADMIN = "Admin";
         public const string ROLE_USER = "User";
 
-        public static readonly Dictionary<string, string> UserRoles = new()
+        public static readonly IReadOnlyDictionary<string, string> UserRoles = new Dictionary<string, string>
         {
             { ROLE_ADMIN_ID, ROLE_ADMIN },
             { ROLE_USER_ID, ROLE_USER }

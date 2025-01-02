@@ -4,9 +4,9 @@ namespace UI.Extensions.Helpers
 {
     public class ValidationHelpers
     {
-        public List<ValidationResult> validationResults = new List<ValidationResult>();
-        ValidationContext validationContext;
-        object instance;
+        public List<ValidationResult> validationResults = [];
+        private readonly ValidationContext validationContext;
+        private readonly object instance;
 
         public ValidationHelpers(object instance)
         {

@@ -10,7 +10,7 @@
 
 @inject IAccountService AccountService
 @inject NavigationManager Nav
-@inject EncryptionHelper<LoginDTO> Encrypt
+@inject EncryptionHelper<LoginDto> Encrypt
 @inject ProtectedSessionStorage ProtectedSessionStore
 @inject SignInManager<User> SignInManager
 
@@ -69,7 +69,7 @@
             return;
         }
 
-        var loginData = new LoginDTO
+        var loginData = new LoginDto
             {
                 UserName = verify.Value,
                 Password = Input.Password,

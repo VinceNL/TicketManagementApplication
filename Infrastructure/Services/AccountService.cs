@@ -203,12 +203,12 @@ namespace Infrastructure.Services
                 }).ToList();
 
             return unitOfWork.Repository<User>().ListAll()
-                .Where(x => x.isDeleted == false)
+                .Where(x => !x.isDeleted)
                 .Select(x => new GetUserResponse
                 {
                     Id = x.Id,
-                    Email = x.Email,
-                    Avatar = x.Avatar,
+                    Email = x.Email ?? string.Empty,
+                    Avatar = x.Avatar ?? string.Empty,
                     Role = roles.FirstOrDefault(r => r.UserId == x.Id)?.Role ?? "User",
                     AccountConfirmed = x.AccountConfirmed
                 }).ToList();

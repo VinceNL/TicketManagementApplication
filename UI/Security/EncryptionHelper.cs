@@ -6,8 +6,9 @@ namespace UI.Security
 {
     public class EncryptionHelper<T> where T : class
     {
-        private byte[] secretKey;
-        private readonly IConfiguration _configuration;
+        private readonly byte[] secretKey;
+
+        public IConfiguration _configuration { get; init; }
 
         public EncryptionHelper(IConfiguration configuration)
         {

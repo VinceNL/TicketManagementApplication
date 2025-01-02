@@ -1,14 +1,20 @@
 ﻿using Domain.Repositories;
 using Infrastructure.Data;
+using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
     public class GenericRepository<T>(AppDBContext context) : IGenericRepository<T> where T : class
     {
-        public T GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            return context.Set<T>().Find(id) ?? throw new Exception("Entity not found");
+            var entity = await context.Set<T>().FindAsync(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Entity of type {typeof(T).Name} with id {id} was not found.");
+            }
+            return entity;
         }
         public List<T> ListAll()
         {

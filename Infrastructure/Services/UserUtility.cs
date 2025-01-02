@@ -5,25 +5,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-public class UserUtility(
-    UserManager<User> userManager, 
-    IHttpContextAccessor httpContext, 
-    ProtectedSessionStorage protectedSession) : IUserUtility
+namespace Infrastructure.Services
 {
-    public async Task<User?> GetCurrentUserAsync()
+    public class UserUtility(
+    UserManager<User> userManager,
+    IHttpContextAccessor httpContext,
+    ProtectedSessionStorage protectedSession) : IUserUtility
     {
-        var emailResult = await protectedSession.GetAsync<string>("email");
-        if (!string.IsNullOrEmpty(emailResult.Value))
+        public async Task<User?> GetCurrentUserAsync()
         {
-            return await userManager.FindByEmailAsync(emailResult.Value);
-        }
+            var emailResult = await protectedSession.GetAsync<string>("email");
+            if (!string.IsNullOrEmpty(emailResult.Value))
+            {
+                return await userManager.FindByEmailAsync(emailResult.Value);
+            }
 
-        var userId = httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId != null)
-        {
-            return await userManager.FindByIdAsync(userId);
-        }
+            var userId = httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null)
+            {
+                return await userManager.FindByIdAsync(userId);
+            }
 
-        return null;
+            return null;
+        }
     }
 }

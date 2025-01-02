@@ -3,6 +3,7 @@ using Domain.DTO.Response;
 using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Data;
+using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
@@ -46,7 +47,7 @@ namespace Infrastructure.Repositories
                         .GroupBy(x => x.Priority.PriorityName);
                     break;
                 default:
-                    return null;
+                    return new List<ChartResponse>();
             }
 
             return data.Select(x => new ChartResponse
@@ -87,7 +88,7 @@ namespace Infrastructure.Repositories
 
             return query.Select(x => new ChartResponse
             {
-                Label = new DateTime(x.Year, x.Month, 1).ToString("MMM yyyy"),
+                Label = new DateTime(x.Year, x.Month, 1, 0, 0, 0, DateTimeKind.Utc).ToString("MMM yyyy"),
                 Value = x.Count
             }).ToList();
         }
@@ -99,27 +100,27 @@ namespace Infrastructure.Repositories
                 query = query.Where(x => (EF.Functions.Like(x.Summary, $"%{request.summary}%")));
             }
 
-            if (request.ProductId != null && request.ProductId.Count() > 0)
+            if (request.ProductId != null && request.ProductId.Length > 0)
             {
                 query = query.Where(x => request.ProductId.Contains(x.ProductId));
             }
 
-            if (request.CategoryId != null && request.CategoryId.Count() > 0)
+            if (request.CategoryId != null && request.CategoryId.Length > 0)
             {
                 query = query.Where(x => request.CategoryId.Contains(x.CategoryId));
             }
 
-            if (request.PriorityId != null && request.PriorityId.Count() > 0)
+            if (request.PriorityId != null && request.PriorityId.Length > 0)
             {
                 query = query.Where(x => request.PriorityId.Contains(x.PriorityId));
             }
 
-            if (request.Status != null && request.Status.Count() > 0)
+            if (request.Status != null && request.Status.Length > 0)
             {
                 query = query.Where(x => request.Status.Contains(x.Status));
             }
 
-            if (request.RaisedBy != null && request.RaisedBy.Count() > 0)
+            if (request.RaisedBy != null && request.RaisedBy.Length > 0)
             {
                 query = query.Where(x => request.RaisedBy.Contains(x.RaisedBy));
             }
@@ -129,11 +130,17 @@ namespace Infrastructure.Repositories
 
         public Ticket FindTicket(int ticketId)
         {
-            return context.Set<Ticket>()
+            var ticket = context.Set<Ticket>()
                 .Include(x => x.User)
                 .Include(x => x.Attachments)
-                .FirstOrDefault(x => x.TicketId == ticketId)
-                ?? throw new Exception("Ticket not found");
+                .FirstOrDefault(x => x.TicketId == ticketId);
+
+            if (ticket == null)
+            {
+                throw new TicketNotFoundException($"Ticket with ID {ticketId} not found");
+            }
+
+            return ticket;
         }
     }
 }

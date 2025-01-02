@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Repositories;
 using Infrastructure.Common;
+using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Infrastructure.Services
@@ -27,7 +28,7 @@ namespace Infrastructure.Services
                     return createTicketResult;
                 }
 
-                var priority = unitOfWork.Repository<Priority>().GetByIdAsync(request.PriorityId!.Value);
+                var priority = await unitOfWork.Repository<Priority>().GetByIdAsync(request.PriorityId!.Value);
 
                 var ticket = new Ticket
                 {
@@ -91,10 +92,10 @@ namespace Infrastructure.Services
         public GetTicketResponse FindTicket(int ticketId)
         {
             var result = unitOfWork.TicketRepository.FindTicket(ticketId);
-            if (result is null) throw new Exception("Ticket not found");
+            if (result is null) throw new TicketNotFoundException("Ticket not found");
 
             var attachmentPath = Path.Combine("uploads", "attachments");
-            
+
             return new GetTicketResponse
             {
                 TicketId = result.TicketId,
@@ -114,7 +115,7 @@ namespace Infrastructure.Services
                 ClosedDate = result.ClosedDate,
                 Attachments = result.Attachments.Select(x => new AttachmentResponse
                 (
-                    FileName: x.FileName, 
+                    FileName: x.FileName,
                     ServerFileName: Path.Combine(attachmentPath, x.ServerFileName)
                 )).ToList()
             };
@@ -145,7 +146,7 @@ namespace Infrastructure.Services
             var result = new BaseResponse();
             result.IsSuccess = false;
 
-            var currentTicket = unitOfWork.Repository<Ticket>().GetByIdAsync(request.TicketId);
+            var currentTicket = await unitOfWork.Repository<Ticket>().GetByIdAsync(request.TicketId);
             if (currentTicket is null)
             {
                 result.ErrorMessage = "Ticket not found";
