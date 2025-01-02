@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250102205321_NullableFix")]
+    partial class NullableFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1446,16 +1449,16 @@ namespace Infrastructure.Data.Migrations
                         {
                             Id = "a3fa6a5d-ff0d-4ea6-a2b5-f9ce7e77b36c",
                             AccessFailedCount = 0,
-                            AccountConfirmed = true,
-                            ConcurrencyStamp = "6e299689-dcb0-4af9-baf5-960240b485cb",
+                            AccountConfirmed = false,
+                            ConcurrencyStamp = "45663211-fa1f-4101-9349-0d72d213f50c",
                             Email = "test@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST@GMAIL.COM",
                             NormalizedUserName = "TEST@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA9E8c3UkmIIfPnbRTFksYi816wZdYvU33eU5AawnEsnog6/CbMQE/QS25HxZm6oGw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKR/Y37mG7zsI/VLmSrR+FqtNg3FR8Ze3xL29l86RukyOUsvzmoIy7t4VW97C5f8uA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "870fd7ce-cf2e-4b7f-b24b-3e2e66b2cbff",
+                            SecurityStamp = "9ee739a9-8818-4f23-a3b8-02c9fbcae75f",
                             TwoFactorEnabled = false,
                             UserName = "test@gmail.com",
                             isDeleted = false

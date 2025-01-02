@@ -12,7 +12,7 @@ namespace Domain.Entities
 
         [Key]
         public int TicketId { get; set; }
-        public string Summary { get; set; }
+        public string? Summary { get; set; }
         public string? Description { get; set; }
         public DateTime RaisedDate { get; set; }
         public DateTime ExpectedDate { get; set; }
@@ -31,17 +31,17 @@ namespace Domain.Entities
         public int ProductId { get; set; }
 
         [ForeignKey(nameof(ProductId))]
-        public Product Product { get; set; }
+        public Product Product { get; set; } = null!;
 
 
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public Category Category { get; set; }
+        public Category Category { get; set; } = null!;
 
         public int PriorityId { get; set; }
         [ForeignKey(nameof(PriorityId))]
-        public Priority Priority { get; set; }
+        public Priority Priority { get; set; } = null!;
 
         public string? Status { get; set; }
 

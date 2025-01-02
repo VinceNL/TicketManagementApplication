@@ -82,11 +82,11 @@ namespace Infrastructure.Services
 
             return result.Select(x => new DiscussionResponse
             {
-                Message = x.Message,
+                Message = x.Message ?? string.Empty,
                 CreatedDate = x.CreatedDate,
                 User = x.User,
                 Attachments = x.Attachments.Select(a => new AttachmentResponse(
-                    a.FileName,
+                    a.FileName ?? string.Empty,
                     Path.Combine(uploadPath, a.ServerFileName)
                 )).ToList()
             }).ToList();

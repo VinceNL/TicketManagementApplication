@@ -12,18 +12,18 @@ namespace Domain.Entities
 
         [Key]
         public int DiscussionId { get; set; }
-        public string Message { get; set; }
+        public string? Message { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public User User { get; set; } = null!;
 
 
         [ForeignKey(nameof(Ticket))]
         public int TicketId { get; set; }
-        public Ticket Ticket { get; set; }
+        public Ticket? Ticket { get; set; }
 
         public virtual ICollection<Attachment> Attachments { get; set; }
     }

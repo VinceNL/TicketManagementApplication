@@ -8,7 +8,7 @@ namespace Infrastructure.Extensions
 {
     public static class Seed
     {
-        static string user1 = Guid.NewGuid().ToString();
+        static string user1 = Guid.Parse("a3fa6a5d-ff0d-4ea6-a2b5-f9ce7e77b36c").ToString();
         public static void SeedDatabase(this ModelBuilder modelBuilder)
         {
             string USER_EMAIL = "test@gmail.com";
@@ -22,11 +22,12 @@ namespace Infrastructure.Extensions
                 UserName = USER_EMAIL,
                 NormalizedUserName = USER_EMAIL.ToUpper(),
                 EmailConfirmed = true,
+                AccountConfirmed = true
             };
 
             //set user password
             PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
-            appUser.PasswordHash = passwordHasher.HashPassword(appUser, "StrongP@ssw0rd!");
+            appUser.PasswordHash = passwordHasher.HashPassword(appUser, "StrongP@ssw0rd!!");
 
             //seed user
             modelBuilder.Entity<User>().HasData(appUser);

@@ -99,7 +99,7 @@ namespace Infrastructure.Services
             return new GetTicketResponse
             {
                 TicketId = result.TicketId,
-                Summary = result.Summary,
+                Summary = result.Summary ?? string.Empty,
                 Description = result.Description ?? string.Empty,
                 ProductId = result.ProductId,
                 CategoryId = result.CategoryId,
@@ -115,7 +115,7 @@ namespace Infrastructure.Services
                 ClosedDate = result.ClosedDate,
                 Attachments = result.Attachments.Select(x => new AttachmentResponse
                 (
-                    FileName: x.FileName,
+                    FileName: x.FileName ?? string.Empty,
                     ServerFileName: Path.Combine(attachmentPath, x.ServerFileName)
                 )).ToList()
             };
@@ -128,7 +128,7 @@ namespace Infrastructure.Services
             return result.Select(x => new GetTicketResponse
             {
                 TicketId = x.TicketId,
-                Summary = x.Summary,
+                Summary = x.Summary ?? string.Empty,
                 Product = x.Product?.ProductName ?? string.Empty,
                 Category = x.Category?.CategoryName ?? string.Empty,
                 Priority = x.Priority?.PriorityName ?? string.Empty,
