@@ -12,7 +12,8 @@
                    Height="200"
                    Class="mt-3"
                    Required="true" RequiredError="Ticket Description is required!"
-                   Placeholder="Description">
+                   Placeholder="Description"
+                   Value="@descriptionEditorValue">
     <ToolbarContent>
         <select class="ql-header">
             <option selected=""></option>
@@ -82,6 +83,8 @@
 
     MudExRichTextEdit descriptionEditor = new();
 
+    string descriptionEditorValue = string.Empty;
+
     IList<IBrowserFile> files = new List<IBrowserFile>();
 
     private void UploadFiles(IReadOnlyList<IBrowserFile> files)
@@ -113,10 +116,10 @@
         var result = await discussionService.Create(request);
         if (result.IsSuccess)
         {
-            descriptionEditor.Value = string.Empty;
             files.Clear();
             await OnNotifyParent.InvokeAsync();
             SnackBar.Add("Discussion created successfully", Severity.Success);
+            StateHasChanged();
         } 
         else {
             SnackBar.Add("Failed submitting discussion", Severity.Error);

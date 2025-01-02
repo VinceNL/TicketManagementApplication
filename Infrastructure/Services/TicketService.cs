@@ -28,15 +28,15 @@ namespace Infrastructure.Services
                     return createTicketResult;
                 }
 
-                var priority = await unitOfWork.Repository<Priority>().GetByIdAsync(request.PriorityId!.Value);
+                var priority = await unitOfWork.Repository<Priority>().GetByIdAsync(request.PriorityId);
 
                 var ticket = new Ticket
                 {
                     Summary = request.Summary,
                     Description = request.Description,
-                    ProductId = request.ProductId!.Value,
-                    CategoryId = request.CategoryId!.Value,
-                    PriorityId = request.PriorityId!.Value,
+                    ProductId = request.ProductId,
+                    CategoryId = request.CategoryId,
+                    PriorityId = request.PriorityId,
                     AssignedToId = request.AssignedToId,
                     RaisedDate = DateTime.Now,
                     RaisedBy = currentUser?.Id,

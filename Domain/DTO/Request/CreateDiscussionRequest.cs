@@ -6,6 +6,6 @@ namespace Domain.DTO.Request
     {
         public string Message { get; set; } = string.Empty;
         public int TicketId { get; set; }
-        public IList<IBrowserFile> Attachments { get; set; }
+        public IList<IBrowserFile> Attachments { get; set; } = new List<IBrowserFile>();
     }
 }

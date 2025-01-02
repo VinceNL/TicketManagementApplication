@@ -124,9 +124,9 @@
                     </MudItem>
                 }
                 <MudButton @onclick="CreateTicket" Variant="Variant.Filled"
-                FullWidth="true"
-                EndIcon="@Icons.Material.Filled.Save"
-                Color="Color.Primary">
+                           FullWidth="true"
+                           EndIcon="@Icons.Material.Filled.Save"
+                           Color="Color.Primary">
                     Create Ticket
                 </MudButton>
                 <Select @ref="productDDL" elements="products" label="Product"></Select>
@@ -199,29 +199,29 @@
 
     private async Task CreateTicket()
     {
-        var request = new CreateTicketRequest 
-        {
-            Summary = summary.Text ?? string.Empty,
-            Description = descriptionEditor.Value,
-            ProductId = productDDL.selectedValue?.ToNullableInteger(),
-            CategoryId = categoryDDL.selectedValue?.ToNullableInteger(),
-            AssignedToId = assignDDL.selectedValue,
-            PriorityId = priorityDDL.selectedValue?.ToNullableInteger(),
-            Files = Files
-        };
+        var request = new CreateTicketRequest
+            {
+                Summary = summary.Text ?? string.Empty,
+                Description = descriptionEditor.Value,
+                ProductId = int.TryParse(productDDL.selectedValue, out int productId) ? productId : 0,
+                CategoryId = int.TryParse(categoryDDL.selectedValue, out int categoryId) ? categoryId : 0,
+                AssignedToId = assignDDL.selectedValue,
+                PriorityId = int.TryParse(priorityDDL.selectedValue, out int priorityId) ? priorityId : 0,
+                Files = Files
+            };
 
         var validationHelper = new ValidationHelpers(request);
         bool isValid = validationHelper.Validate();
         errors = validationHelper.validationResults.Select(x => x.ErrorMessage).ToArray();
 
-        if (isValid) 
+        if (isValid)
         {
             var createTicketResult = await TicketService.CreateTicket(request);
             if (!createTicketResult.IsSuccess)
             {
                 alert.ShowFailure("Failed: " + createTicketResult.ErrorMessage);
             }
-            else 
+            else
             {
                 Nav.NavigateTo("/ticket/details/" + createTicketResult.Value);
             }

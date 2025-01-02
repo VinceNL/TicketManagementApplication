@@ -9,6 +9,6 @@ namespace Domain.DTO.Request
         [Required] public int? CategoryId { get; set; }
         [Required] public int? PriorityId { get; set; }
         [Required] public string? AssignedToId { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 }

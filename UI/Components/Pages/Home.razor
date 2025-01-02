@@ -171,7 +171,7 @@
             });
 
         lastYearsOptions.YAxisTicks = 5;
-        lastYearsLabels = lastYearsTickets.Select(x => x.Label).ToArray();
+        lastYearsLabels = lastYearsTickets.Select(x => x.Label!).ToArray();
     }
 
     private void InitializeCategoryType()
@@ -188,7 +188,7 @@
     {
         chartByCategory = TicketService.ChartByCategory("Category");
         chartByCategoryValue = chartByCategory.Select(x => (double)x.Value).ToArray();
-        chartByCategoryLabel = chartByCategory.Select(x => x.Label).ToArray();
+        chartByCategoryLabel = chartByCategory.Select(x => x.Label!).ToArray();
     }
 
     private void InitializeSummary()
@@ -208,9 +208,9 @@
     {
         if (!summaryIntialised)
         {
-            NewCount = summary.FirstOrDefault(x => x.Label.ToUpper() == Constants.STATUS_NEW)?.Value ?? 0;
-            OpenCount = summary.FirstOrDefault(x => x.Label.ToUpper() == Constants.STATUS_OPEN)?.Value ?? 0;
-            ClosedCount = summary.FirstOrDefault(x => x.Label.ToUpper() == Constants.STATUS_CLOSED)?.Value ?? 0;
+            NewCount = summary.FirstOrDefault(x => x.Label?.ToUpper() == Constants.STATUS_NEW)?.Value ?? 0;
+            OpenCount = summary.FirstOrDefault(x => x.Label?.ToUpper() == Constants.STATUS_OPEN)?.Value ?? 0;
+            ClosedCount = summary.FirstOrDefault(x => x.Label?.ToUpper() == Constants.STATUS_CLOSED)?.Value ?? 0;
             TotalCount = summary.Sum(x => x.Value);
             summaryIntialised = true;
         }
@@ -220,6 +220,6 @@
     {
         chartByCategory = TicketService.ChartByCategory(value);
         chartByCategoryValue = chartByCategory.Select(x => (double)x.Value).ToArray();
-        chartByCategoryLabel = chartByCategory.Select(x => x.Label).ToArray();
+        chartByCategoryLabel = chartByCategory.Select(x => x.Label!).ToArray();
     }
 }

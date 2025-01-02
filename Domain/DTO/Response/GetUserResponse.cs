@@ -2,10 +2,10 @@
 {
     public class GetUserResponse
     {
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Avatar { get; set; }
-        public string Role { get; set; }
+        public string? Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Avatar { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
         public bool AccountConfirmed { get; set; }
     }
 }
